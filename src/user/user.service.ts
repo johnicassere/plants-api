@@ -9,4 +9,8 @@ export class UserService {
     this.banco.push(data);
     return this.banco;
   }
+
+  getUsers(): CreateUserDto[] {
+    return this.banco;
+  }
 }
