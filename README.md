@@ -3,7 +3,6 @@
 </h1>
 
 <p align="center">
-  <img src="https://img.shields.io/github/license/isadfrn/plants-api?style=flat-square" />
   <img src="https://img.shields.io/github/languages/count/isadfrn/plants-api?style=flat-square" />
   <img src="https://img.shields.io/github/repo-size/isadfrn/plants-api?style=flat-square" />
   <img src="https://img.shields.io/github/last-commit/isadfrn/plants-api?style=flat-square" />
