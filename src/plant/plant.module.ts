@@ -4,6 +4,6 @@ import { PlantService } from './plant.service';
 
 @Module({
   controllers: [PlantController],
-  providers: [PlantService]
+  providers: [PlantService],
 })
 export class PlantModule {}
