@@ -21,6 +21,10 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
+  linkImagem: string;
+
+  @IsString()
+  @IsNotEmpty()
   @Length(6, 15)
   confirmacaoSenha: string;
 }
