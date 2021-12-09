@@ -16,6 +16,22 @@ model User {
   email      String   @unique
   nascimento String
   senha      String
+  linkImagem String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+model Plant {
+  id             String   @id @default(uuid())
+  nomeCientifico String   @unique
+  nomePopular    String
+  reino          String
+  divisao        String
+  classe         String
+  ordem          String
+  familia        String
+  subfamilia     String
+  linkImagem     String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

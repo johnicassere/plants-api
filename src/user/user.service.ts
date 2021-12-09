@@ -14,7 +14,7 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(private database: PrismaService) {}
 
-  async createUser(dadosDoUsuario: CreateUserDto): Promise<User> {
+  async create(dadosDoUsuario: CreateUserDto): Promise<User> {
     if (dadosDoUsuario.senha !== dadosDoUsuario.confirmacaoSenha) {
       throw new UnauthorizedException(
         'A senha e a confirmação da senha não são compativeis',

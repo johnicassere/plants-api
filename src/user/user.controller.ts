@@ -17,8 +17,8 @@ export class UserController {
   constructor(private service: UserService) {}
 
   @Post('create')
-  createUser(@Body() data: CreateUserDto): Promise<User> {
-    return this.service.createUser(data);
+  create(@Body() data: CreateUserDto): Promise<User> {
+    return this.service.create(data);
   }
 
   @Patch('update/:id')
