@@ -19,6 +19,7 @@ model User {
   linkImagem String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  plantas    Plant[]
 }
 
 model Plant {
@@ -34,4 +35,5 @@ model Plant {
   linkImagem     String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+  usuarios       User[]
 }
