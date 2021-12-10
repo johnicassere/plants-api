@@ -5,14 +5,14 @@ services:
     image: postgres
     ports:
       - '5432:5432'
-    container_name: postgres
+    container_name: plants-api
     restart: always
     volumes:
-      - postgres-disk:/var/lib/postgresql/data
+      - plants-api-disk:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: Julinho2
+      POSTGRES_PASSWORD: admin
       POSTGRES_DB: plants-api
 
 volumes:
-  postgres-disk:
+  plants-api-disk:
