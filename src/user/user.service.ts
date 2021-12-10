@@ -7,7 +7,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma.service';
-import { User } from '@prisma/client';
+import { User, Plant } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -95,5 +95,31 @@ export class UserService {
     return {
       message: 'Id foi encontrado e deletado com sucesso',
     };
+  }
+
+  async addList(user: User, plantId: string) {
+    const plant = await this.database.plant.findUnique({
+      where: { id: plantId },
+    });
+
+    if (!plant) {
+      throw new NotFoundException('Planta não encontrada');
+    }
+
+    const usuario = await this.database.user.update({
+      where: { id: user.id },
+      data: {
+        plantas: {
+          connect: {
+            id: plant.id,
+          },
+        },
+      },
+      include: {
+        plantas: true,
+      },
+    });
+    delete usuario.senha;
+    return usuario;
   }
 }

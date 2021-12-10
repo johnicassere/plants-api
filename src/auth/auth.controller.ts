@@ -1,6 +1,9 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CrendentialsDto } from './dto/credentials.dto';
+import { AuthGuard } from '@nestjs/passport';
+import AuthUser from './auth-user.decorator';
+import { User } from '@prisma/client';
 
 @Controller('auth')
 export class AuthController {
@@ -9,5 +12,11 @@ export class AuthController {
   @Post('login')
   login(@Body() dados: CrendentialsDto) {
     return this.authService.login(dados);
+  }
+
+  @UseGuards(AuthGuard())
+  @Get('profile')
+  profile(@AuthUser() user: User): User {
+    return user;
   }
 }
