@@ -14,10 +14,12 @@
 
 - NestJS
 - Prisma
+- PostgreSQL
+- Docker
 
 ## Project
 
-A simple API for register Plants, Users and calculate time for haverst, when flowers will bloom and so on and so forth.
+This is a simple API for register Plants, Users and calculate time for haverst and when flowers will bloom.
 
 ## Run
 

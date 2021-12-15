@@ -4,10 +4,15 @@ export class UpdatePlantDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  nomePopular: string;
+  commonName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  description: string;
 
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  linkImagem: string;
+  imageUrl: string;
 }

@@ -25,12 +25,6 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard())
-  @Patch('update/:id')
-  update(@Param('id') id: string, @Body() data: UpdateUserDto): Promise<User> {
-    return this.service.update(id, data);
-  }
-
-  @UseGuards(AuthGuard())
   @Get('findMany')
   findMany(): Promise<any[]> {
     return this.service.findMany();
@@ -43,6 +37,12 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard())
+  @Patch('update/:id')
+  update(@Param('id') id: string, @Body() data: UpdateUserDto): Promise<User> {
+    return this.service.update(id, data);
+  }
+
+  @UseGuards(AuthGuard())
   @Delete('delete/:id')
   delete(@Param('id') id: string): Promise<{ message: string }> {
     return this.service.delete(id);
@@ -50,7 +50,7 @@ export class UserController {
 
   @UseGuards(AuthGuard())
   @Patch('addList/:id')
-  addList(@AuthUser() user: User, @Param('id') plantId: string) {
+  addList(@AuthUser() user: User, @Param('id') plantId: string): Promise<any> {
     return this.service.addList(user, plantId);
   }
 }

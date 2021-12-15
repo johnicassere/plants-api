@@ -7,59 +7,47 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma.service';
-import { User, Plant } from '@prisma/client';
+import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
   constructor(private database: PrismaService) {}
 
-  async create(dadosDoUsuario: CreateUserDto): Promise<User> {
-    if (dadosDoUsuario.senha !== dadosDoUsuario.confirmacaoSenha) {
+  async create(data: CreateUserDto): Promise<User> {
+    if (data.password !== data.passwordConfirmation) {
       throw new UnauthorizedException(
         'A senha e a confirmação da senha não são compativeis',
       );
     }
 
     const userExists = await this.database.user.findUnique({
-      where: { email: dadosDoUsuario.email },
+      where: { email: data.email },
     });
 
     if (userExists) {
-      throw new ConflictException('Esse e-mail já está cadastrado');
+      throw new ConflictException('E-mail já está cadastrado');
     }
 
-    const saltos = 10;
-    const hashDaSenha = await bcrypt.hash(dadosDoUsuario.senha, saltos);
+    const passwordHash = await bcrypt.hash(data.password, 10);
 
-    delete dadosDoUsuario.confirmacaoSenha;
+    delete data.passwordConfirmation;
 
     const user = await this.database.user.create({
       data: {
-        ...dadosDoUsuario,
-        senha: hashDaSenha,
+        ...data,
+        password: passwordHash,
       },
     });
 
-    delete user.senha;
-    return user;
-  }
-
-  async update(id: string, dadosDoUsuario: UpdateUserDto): Promise<User> {
-    const user = await this.database.user.update({
-      data: dadosDoUsuario,
-      where: { id: id },
-    });
-
-    delete user.senha;
-
+    delete user.password;
     return user;
   }
 
   async findMany(): Promise<any[]> {
-    const user = await this.database.user.findMany();
-    const userNoPass = user.map(({ senha, ...resto }) => resto);
-    return userNoPass;
+    const users = await this.database.user.findMany();
+    const usersList = users.map(({ password, ...rest }) => rest);
+    return usersList;
   }
 
   async findUnique(id: string): Promise<User> {
@@ -73,7 +61,18 @@ export class UserService {
       );
     }
 
-    delete user.senha;
+    delete user.password;
+    return user;
+  }
+
+  async update(id: string, data: UpdateUserDto): Promise<User> {
+    const user = await this.database.user.update({
+      data: data,
+      where: { id: id },
+    });
+
+    delete user.password;
+
     return user;
   }
 
@@ -97,7 +96,7 @@ export class UserService {
     };
   }
 
-  async addList(user: User, plantId: string) {
+  async addList(user: User, plantId: string): Promise<{ message: string }> {
     const plant = await this.database.plant.findUnique({
       where: { id: plantId },
     });
@@ -106,20 +105,54 @@ export class UserService {
       throw new NotFoundException('Planta não encontrada');
     }
 
-    const usuario = await this.database.user.update({
+    const userPlants = await this.database.user.findUnique({
       where: { id: user.id },
-      data: {
-        plantas: {
-          connect: {
-            id: plant.id,
-          },
-        },
-      },
       include: {
-        plantas: true,
+        plants: true,
       },
     });
-    delete usuario.senha;
-    return usuario;
+
+    const userPlantsArray = userPlants.plants;
+    let foundPlant = false;
+
+    userPlantsArray.map((plant) => {
+      if (plant.id === plantId) {
+        foundPlant = true;
+      }
+    });
+
+    if (foundPlant) {
+      await this.database.user.update({
+        where: { id: user.id },
+        data: {
+          plants: {
+            disconnect: {
+              id: plant.id,
+            },
+          },
+        },
+        include: {
+          plants: true,
+        },
+      });
+
+      return { message: 'Planta removida da lista' };
+    } else {
+      await this.database.user.update({
+        where: { id: user.id },
+        data: {
+          plants: {
+            connect: {
+              id: plant.id,
+            },
+          },
+        },
+        include: {
+          plants: true,
+        },
+      });
+
+      return { message: 'Planta adicionada na lista' };
+    }
   }
 }

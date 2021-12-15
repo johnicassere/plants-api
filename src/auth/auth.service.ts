@@ -12,26 +12,26 @@ import { JwtService } from '@nestjs/jwt';
 export class AuthService {
   constructor(private database: PrismaService, private jwt: JwtService) {}
 
-  async login(dadosDoLogin: CrendentialsDto) {
-    const usuarioExiste = await this.database.user.findUnique({
-      where: { email: dadosDoLogin.email },
+  async login(data: CrendentialsDto) {
+    const userExists = await this.database.user.findUnique({
+      where: { email: data.email },
     });
 
-    if (!usuarioExiste) {
+    if (!userExists) {
       throw new NotFoundException('Usuário não encontrado');
     }
 
-    const senhaValida = await bcrypt.compare(
-      dadosDoLogin.senha,
-      usuarioExiste.senha,
+    const passwordMatches = await bcrypt.compare(
+      data.password,
+      userExists.password,
     );
 
-    if (senhaValida) {
-      const ingresso = {
-        email: usuarioExiste.email,
+    if (passwordMatches) {
+      const payload = {
+        email: userExists.email,
       };
 
-      const token = await this.jwt.sign(ingresso);
+      const token = await this.jwt.sign(payload);
 
       return { token };
     } else {

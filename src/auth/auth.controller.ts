@@ -10,8 +10,8 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  login(@Body() dados: CrendentialsDto) {
-    return this.authService.login(dados);
+  login(@Body() data: CrendentialsDto) {
+    return this.authService.login(data);
   }
 
   @UseGuards(AuthGuard())

@@ -16,38 +16,38 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('plant')
 export class PlantController {
-  constructor(private readonly plantService: PlantService) {}
+  constructor(private readonly service: PlantService) {}
 
   @UseGuards(AuthGuard())
   @Post('create')
-  create(@Body() createPlantDto: CreatePlantDto): Promise<Plant> {
-    return this.plantService.create(createPlantDto);
+  create(@Body() data: CreatePlantDto): Promise<Plant> {
+    return this.service.create(data);
   }
 
   @UseGuards(AuthGuard())
-  @Get('get-all')
-  findAll(): Promise<Plant[]> {
-    return this.plantService.findAll();
+  @Get('findMany')
+  findMany(): Promise<Plant[]> {
+    return this.service.findMany();
   }
 
   @UseGuards(AuthGuard())
-  @Get('find-one/:id')
-  findOne(@Param('id') id: string): Promise<Plant> {
-    return this.plantService.findOne(id);
+  @Get('findUnique/:id')
+  findUnique(@Param('id') id: string): Promise<Plant> {
+    return this.service.findUnique(id);
   }
 
   @UseGuards(AuthGuard())
   @Patch('update/:id')
   update(
     @Param('id') id: string,
-    @Body() updatePlantDto: UpdatePlantDto,
+    @Body() data: UpdatePlantDto,
   ): Promise<Plant> {
-    return this.plantService.update(id, updatePlantDto);
+    return this.service.update(id, data);
   }
 
   @UseGuards(AuthGuard())
   @Delete('delete/:id')
   remove(@Param('id') id: string): Promise<{ message: string }> {
-    return this.plantService.remove(id);
+    return this.service.delete(id);
   }
 }

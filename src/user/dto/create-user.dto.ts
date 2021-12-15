@@ -3,7 +3,7 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   @Length(6, 150)
-  nome: string;
+  name: string;
 
   @IsString()
   @IsNotEmpty()
@@ -12,19 +12,19 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  nascimento: string;
+  birthdate: string;
+
+  @IsString()
+  @IsNotEmpty()
+  imageUrl: string;
 
   @IsString()
   @IsNotEmpty()
   @Length(6, 15)
-  senha: string;
-
-  @IsString()
-  @IsNotEmpty()
-  linkImagem: string;
+  password: string;
 
   @IsString()
   @IsNotEmpty()
   @Length(6, 15)
-  confirmacaoSenha: string;
+  passwordConfirmation: string;
 }

@@ -9,5 +9,5 @@ export class CrendentialsDto {
   @IsString()
   @IsNotEmpty()
   @Length(6, 15)
-  senha: string;
+  password: string;
 }

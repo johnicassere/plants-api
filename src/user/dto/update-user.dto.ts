@@ -11,11 +11,15 @@ export class UpdateUserDto {
   @IsString()
   @IsNotEmpty()
   @Length(6, 150)
-  nome: string;
+  name: string;
 
   @IsOptional()
   @IsEmail()
   @IsNotEmpty()
   @Length(6, 150)
   email: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  imageUrl: string;
 }
