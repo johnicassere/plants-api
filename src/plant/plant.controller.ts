@@ -13,41 +13,68 @@ import { CreatePlantDto } from './dto/create-plant.dto';
 import { UpdatePlantDto } from './dto/update-plant.dto';
 import { Plant } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('plant')
 @Controller('plant')
 export class PlantController {
-  constructor(private readonly plantService: PlantService) {}
+  constructor(private readonly service: PlantService) {}
 
   @UseGuards(AuthGuard())
   @Post('create')
-  create(@Body() createPlantDto: CreatePlantDto): Promise<Plant> {
-    return this.plantService.create(createPlantDto);
+  @ApiOperation({
+    summary: 'Criar uma planta',
+  })
+  create(@Body() data: CreatePlantDto): Promise<Plant> {
+    return this.service.create(data);
   }
 
   @UseGuards(AuthGuard())
-  @Get('get-all')
-  findAll(): Promise<Plant[]> {
-    return this.plantService.findAll();
+  @Post('createMany')
+  @ApiOperation({
+    summary: 'Criar várias plantas',
+  })
+  createMany(@Body() data: CreatePlantDto[]): Promise<Plant[]> {
+    return this.service.createMany(data);
   }
 
   @UseGuards(AuthGuard())
-  @Get('find-one/:id')
-  findOne(@Param('id') id: string): Promise<Plant> {
-    return this.plantService.findOne(id);
+  @Get('findMany')
+  @ApiOperation({
+    summary: 'Listar todas as plantas cadastradas',
+  })
+  findMany(): Promise<Plant[]> {
+    return this.service.findMany();
+  }
+
+  @UseGuards(AuthGuard())
+  @Get('findUnique/:id')
+  @ApiOperation({
+    summary: 'Encontrar uma planta pelo ID',
+  })
+  findUnique(@Param('id') id: string): Promise<Plant> {
+    return this.service.findUnique(id);
   }
 
   @UseGuards(AuthGuard())
   @Patch('update/:id')
+  @ApiOperation({
+    summary: 'Atualizar uma planta pelo ID',
+  })
   update(
     @Param('id') id: string,
-    @Body() updatePlantDto: UpdatePlantDto,
+    @Body() data: UpdatePlantDto,
   ): Promise<Plant> {
-    return this.plantService.update(id, updatePlantDto);
+    return this.service.update(id, data);
   }
 
   @UseGuards(AuthGuard())
   @Delete('delete/:id')
+  @ApiOperation({
+    summary: 'Deletar uma planta pelo ID',
+  })
   remove(@Param('id') id: string): Promise<{ message: string }> {
-    return this.plantService.remove(id);
+    return this.service.delete(id);
   }
 }

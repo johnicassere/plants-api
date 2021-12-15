@@ -11,29 +11,24 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
-  nome       String
-  email      String   @unique
-  nascimento String
-  senha      String
-  linkImagem String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  plantas    Plant[]
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  birthdate String
+  password  String
+  imageUrl  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  plants    Plant[]
 }
 
 model Plant {
   id             String   @id @default(uuid())
-  nomeCientifico String   @unique
-  nomePopular    String
-  reino          String
-  divisao        String
-  classe         String
-  ordem          String
-  familia        String
-  subfamilia     String
-  linkImagem     String
+  scientificName String   @unique
+  commonName     String
+  description    String
+  imageUrl       String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  usuarios       User[]
+  users          User[]
 }

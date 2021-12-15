@@ -1,7 +1,7 @@
 {
   "name": "plants-api",
-  "version": "0.0.1",
-  "description": "A simple API for register Plants, Users and calculate time for haverst, when flowers will bloom and so on and so forth",
+  "version": "1.0.0",
+  "description": "This is a simple API for register Plants, Users and calculate time for haverst and when flowers will bloom",
   "author": "Isabella Nunes",
   "private": true,
   "license": "MIT",
@@ -18,7 +18,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -27,6 +28,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^8.0.1",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/swagger": "^5.1.5",
     "@prisma/client": "^3.6.0",
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
@@ -35,7 +37,8 @@
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "swagger-ui-express": "^4.2.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

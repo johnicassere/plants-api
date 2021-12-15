@@ -12,52 +12,67 @@ import { Plant } from '@prisma/client';
 export class PlantService {
   constructor(private database: PrismaService) {}
 
-  async create(dadosDaPlanta: CreatePlantDto): Promise<Plant> {
-    const plantaExiste = await this.database.plant.findUnique({
-      where: { nomeCientifico: dadosDaPlanta.nomeCientifico },
+  async create(data: CreatePlantDto): Promise<Plant> {
+    const plantExists = await this.database.plant.findUnique({
+      where: { scientificName: data.scientificName },
     });
 
-    if (plantaExiste) {
+    if (plantExists) {
       throw new ConflictException('Essa planta já está cadastrada');
     }
 
-    const planta = await this.database.plant.create({ data: dadosDaPlanta });
-    return planta;
+    const plant = await this.database.plant.create({ data: data });
+    return plant;
   }
 
-  async findAll(): Promise<Plant[]> {
-    const plantas = await this.database.plant.findMany();
-    return plantas;
+  async createMany(data: CreatePlantDto[]): Promise<Plant[]> {
+    data.map(async (plant) => {
+      const plantExists = await this.database.plant.findUnique({
+        where: { scientificName: plant.scientificName },
+      });
+
+      if (!plantExists) {
+        await this.database.plant.create({ data: plant });
+      }
+    });
+
+    const plants = await this.database.plant.findMany();
+    return plants;
   }
 
-  async findOne(id: string): Promise<Plant> {
-    const plantaExiste = await this.database.plant.findUnique({
+  async findMany(): Promise<Plant[]> {
+    const plants = await this.database.plant.findMany();
+    return plants;
+  }
+
+  async findUnique(id: string): Promise<Plant> {
+    const plantExists = await this.database.plant.findUnique({
       where: { id },
     });
 
-    if (!plantaExiste) {
+    if (!plantExists) {
       throw new NotFoundException(
         'Planta com o ID informado não foi encontrado',
       );
     }
 
-    return plantaExiste;
+    return plantExists;
   }
 
-  async update(id: string, updatePlantDto: UpdatePlantDto): Promise<Plant> {
-    const planta = await this.database.plant.update({
-      data: updatePlantDto,
+  async update(id: string, data: UpdatePlantDto): Promise<Plant> {
+    const plant = await this.database.plant.update({
+      data: data,
       where: { id },
     });
-    return planta;
+    return plant;
   }
 
-  async remove(id: string): Promise<{ message: string }> {
-    const plantaExiste = await this.database.plant.findUnique({
+  async delete(id: string): Promise<{ message: string }> {
+    const plantExists = await this.database.plant.findUnique({
       where: { id },
     });
 
-    if (!plantaExiste) {
+    if (!plantExists) {
       throw new NotFoundException(
         'Planta com o ID informado não foi encontrado',
       );

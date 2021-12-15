@@ -1,39 +1,24 @@
 import { IsString, IsNotEmpty } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePlantDto {
   @IsString()
   @IsNotEmpty()
-  nomeCientifico: string;
+  @ApiProperty()
+  scientificName: string;
 
   @IsString()
   @IsNotEmpty()
-  nomePopular: string;
+  @ApiProperty()
+  commonName: string;
 
   @IsString()
   @IsNotEmpty()
-  reino: string;
+  @ApiProperty()
+  description: string;
 
   @IsString()
   @IsNotEmpty()
-  divisao: string;
-
-  @IsString()
-  @IsNotEmpty()
-  classe: string;
-
-  @IsString()
-  @IsNotEmpty()
-  ordem: string;
-
-  @IsString()
-  @IsNotEmpty()
-  familia: string;
-
-  @IsString()
-  @IsNotEmpty()
-  subfamilia: string;
-
-  @IsString()
-  @IsNotEmpty()
-  linkImagem: string;
+  @ApiProperty()
+  imageUrl: string;
 }
