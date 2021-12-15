@@ -84,4 +84,9 @@ export class PlantService {
 
     return { message: 'Id foi encontrado e deletado ' };
   }
+
+  async deleteMany(): Promise<{ count: number }> {
+    const deleted = await this.database.plant.deleteMany({});
+    return deleted;
+  }
 }

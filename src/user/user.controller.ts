@@ -14,8 +14,6 @@ import { User } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
 import AuthUser from 'src/auth/auth-user.decorator';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-
-@ApiBearerAuth()
 @ApiTags('user')
 @Controller('user')
 export class UserController {
@@ -34,6 +32,7 @@ export class UserController {
   @ApiOperation({
     summary: 'Atualizar o usuário autenticado',
   })
+  @ApiBearerAuth()
   update(@AuthUser() user: User, @Body() data: UpdateUserDto): Promise<User> {
     return this.service.update(user, data);
   }
@@ -43,6 +42,7 @@ export class UserController {
   @ApiOperation({
     summary: 'Deletar o usuário autenticado',
   })
+  @ApiBearerAuth()
   delete(@AuthUser() user: User): Promise<{ message: string }> {
     return this.service.delete(user);
   }
@@ -53,6 +53,7 @@ export class UserController {
     summary:
       'Adicionar uma planta na lista de plantas cultivadas pelo usuário autenticado',
   })
+  @ApiBearerAuth()
   addList(@AuthUser() user: User, @Param('id') plantId: string): Promise<any> {
     return this.service.addList(user, plantId);
   }

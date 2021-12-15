@@ -14,8 +14,6 @@ import { UpdatePlantDto } from './dto/update-plant.dto';
 import { Plant } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-
-@ApiBearerAuth()
 @ApiTags('plant')
 @Controller('plant')
 export class PlantController {
@@ -26,6 +24,7 @@ export class PlantController {
   @ApiOperation({
     summary: 'Criar uma planta',
   })
+  @ApiBearerAuth()
   create(@Body() data: CreatePlantDto): Promise<Plant> {
     return this.service.create(data);
   }
@@ -35,6 +34,7 @@ export class PlantController {
   @ApiOperation({
     summary: 'Criar várias plantas',
   })
+  @ApiBearerAuth()
   createMany(@Body() data: CreatePlantDto[]): Promise<Plant[]> {
     return this.service.createMany(data);
   }
@@ -60,6 +60,7 @@ export class PlantController {
   @ApiOperation({
     summary: 'Atualizar uma planta pelo ID',
   })
+  @ApiBearerAuth()
   update(
     @Param('id') id: string,
     @Body() data: UpdatePlantDto,
@@ -72,7 +73,18 @@ export class PlantController {
   @ApiOperation({
     summary: 'Deletar uma planta pelo ID',
   })
+  @ApiBearerAuth()
   remove(@Param('id') id: string): Promise<{ message: string }> {
     return this.service.delete(id);
+  }
+
+  @UseGuards(AuthGuard())
+  @Delete('deleteMany')
+  @ApiOperation({
+    summary: 'Deletar todos os dados do banco',
+  })
+  @ApiBearerAuth()
+  deleteMany(): Promise<{ count: number }> {
+    return this.service.deleteMany();
   }
 }

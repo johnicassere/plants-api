@@ -6,7 +6,6 @@ import AuthUser from './auth-user.decorator';
 import { User } from '@prisma/client';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-@ApiBearerAuth()
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -25,6 +24,7 @@ export class AuthController {
   @ApiOperation({
     summary: 'Retorna as informações do usuário dono do token informado',
   })
+  @ApiBearerAuth()
   profile(@AuthUser() user: User): User {
     return user;
   }
