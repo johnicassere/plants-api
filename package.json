@@ -1,7 +1,7 @@
 {
   "name": "plants-api",
   "version": "1.0.0",
-  "description": "A simple API for register Plants, Users and calculate time for haverst, when flowers will bloom and so on and so forth",
+  "description": "This is a simple API for register Plants, Users and calculate time for haverst and when flowers will bloom",
   "author": "Isabella Nunes",
   "private": true,
   "license": "MIT",
@@ -18,7 +18,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",

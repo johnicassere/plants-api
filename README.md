@@ -16,6 +16,7 @@
 - Prisma
 - PostgreSQL
 - Docker
+- Swagger
 
 ## Project
 
