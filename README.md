@@ -22,7 +22,7 @@
 
 This is a simple API for register Plants, Users and calculate time for haverst and when flowers will bloom.
 
-## Run
+## Run locally
 
 Install all dependencies:
 
@@ -36,11 +36,13 @@ Then run:
 npm run start:dev
 ```
 
-Lastly access [http://localhost:3000](http://localhost:3000). You can import the [insomnia collection](/collection.json) and test the existing routes.
+Lastly access [http://localhost:3000](http://localhost:3000). You can import the [insomnia collection](/collection.json) and test the existing routes or you can use [Swagger](http://localhost:3000/api).
 
+## Deploy
+You can access the deployed application on [https://plants-api-1.herokuapp.com/api/](https://plants-api-1.herokuapp.com/api/).
 ## Status
 
-In progress 🚧
+Done ✅
 
 ## License
 

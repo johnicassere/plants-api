@@ -39,7 +39,6 @@ export class PlantController {
     return this.service.createMany(data);
   }
 
-  @UseGuards(AuthGuard())
   @Get('findMany')
   @ApiOperation({
     summary: 'Listar todas as plantas cadastradas',
@@ -48,7 +47,6 @@ export class PlantController {
     return this.service.findMany();
   }
 
-  @UseGuards(AuthGuard())
   @Get('findUnique/:id')
   @ApiOperation({
     summary: 'Encontrar uma planta pelo ID',
