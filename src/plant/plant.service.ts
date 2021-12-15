@@ -25,6 +25,21 @@ export class PlantService {
     return plant;
   }
 
+  async createMany(data: CreatePlantDto[]): Promise<Plant[]> {
+    data.map(async (plant) => {
+      const plantExists = await this.database.plant.findUnique({
+        where: { scientificName: plant.scientificName },
+      });
+
+      if (!plantExists) {
+        await this.database.plant.create({ data: plant });
+      }
+    });
+
+    const plants = await this.database.plant.findMany();
+    return plants;
+  }
+
   async findMany(): Promise<Plant[]> {
     const plants = await this.database.plant.findMany();
     return plants;
