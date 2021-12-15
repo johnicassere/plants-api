@@ -4,7 +4,6 @@ import {
   Body,
   Patch,
   Param,
-  Get,
   Delete,
   UseGuards,
 } from '@nestjs/common';
@@ -31,39 +30,21 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard())
-  @Get('findMany')
+  @Patch('update')
   @ApiOperation({
-    summary: 'Listar todos os usuários',
+    summary: 'Atualizar o usuário autenticado',
   })
-  findMany(): Promise<any[]> {
-    return this.service.findMany();
+  update(@AuthUser() user: User, @Body() data: UpdateUserDto): Promise<User> {
+    return this.service.update(user, data);
   }
 
   @UseGuards(AuthGuard())
-  @Get('findUnique/:id')
+  @Delete('delete')
   @ApiOperation({
-    summary: 'Listar um usuário pelo ID',
+    summary: 'Deletar o usuário autenticado',
   })
-  findUnique(@Param('id') id: string): Promise<User> {
-    return this.service.findUnique(id);
-  }
-
-  @UseGuards(AuthGuard())
-  @Patch('update/:id')
-  @ApiOperation({
-    summary: 'Atualizar um usuário pelo ID',
-  })
-  update(@Param('id') id: string, @Body() data: UpdateUserDto): Promise<User> {
-    return this.service.update(id, data);
-  }
-
-  @UseGuards(AuthGuard())
-  @Delete('delete/:id')
-  @ApiOperation({
-    summary: 'Deletar um usuário pelo ID',
-  })
-  delete(@Param('id') id: string): Promise<{ message: string }> {
-    return this.service.delete(id);
+  delete(@AuthUser() user: User): Promise<{ message: string }> {
+    return this.service.delete(user);
   }
 
   @UseGuards(AuthGuard())
