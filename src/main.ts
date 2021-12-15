@@ -13,10 +13,7 @@ async function bootstrap() {
       'This is a simple API for register Plants, Users and calculate time for haverst and when flowers will bloom.',
     )
     .setVersion('1.0.0')
-    .addBearerAuth(
-      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
-      'access-token',
-    )
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
