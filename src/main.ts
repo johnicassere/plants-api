@@ -11,7 +11,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Plants API')
     .setDescription(
-      'This is a simple API for register Plants, Users and calculate time for haverst and when flowers will bloom.',
+      'This is a simple API for register Plants, Users and calculate time for haverst and when flowers will bloom',
     )
     .setVersion('1.0.0')
     .addBearerAuth()
